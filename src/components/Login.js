@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import context from '../context/RecipesContext';
 
 function Login() {
   const { login, setLogin } = useContext(context);
+  const history = useHistory();
 
   const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const minpass = 6;
@@ -19,6 +21,7 @@ function Login() {
   const handlClick = () => {
     const { email } = login;
     localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/meals');
   };
 
   return (
