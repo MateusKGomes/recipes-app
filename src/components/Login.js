@@ -16,6 +16,11 @@ function Login() {
     });
   };
 
+  const handlClick = () => {
+    const { email } = login;
+    localStorage.setItem('user', JSON.stringify({ email }));
+  };
+
   return (
     <div>
       <input
@@ -38,6 +43,7 @@ function Login() {
         data-testid="login-submit-btn"
         type="button"
         disabled={ !validation }
+        onClick={ handlClick }
       >
         Enter
       </button>
