@@ -1,8 +1,10 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import Provider from '../context/RecipesProvider';
 import renderWithRouter from './helpers/RenderWithRouter';
+
+const input = 'profile-top-btn';
 
 describe('Cobertura dos testes da tela de Header', () => {
   it('testando os inputs', () => {
@@ -16,7 +18,7 @@ describe('Cobertura dos testes da tela de Header', () => {
       history.push('/meals');
     });
 
-    const profileInput = screen.getByTestId('profile-top-btn');
+    const profileInput = screen.getByTestId(input);
     const profileSearch = screen.getByTestId('profile-top-btn');
     expect(profileInput).toBeInTheDocument();
     expect(profileSearch).toBeInTheDocument();
@@ -50,7 +52,7 @@ describe('Cobertura dos testes da tela de Header', () => {
       history.push('/meals');
     });
 
-    const profileBtn = screen.getByTestId('profile-top-btn');
+    const profileBtn = screen.getByTestId(input);
     userEvent.click(profileBtn);
     const { pathname } = history.location;
     expect(pathname).toBe('/profile');
