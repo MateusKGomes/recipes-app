@@ -1,8 +1,16 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import context from '../context/RecipesContext';
-import { requestApiIngredients, requestApiLetra, requestApiName } from '../services/api';
+import { requestApiDrinkIngredients,
+  requestApiDrinkLetra,
+  requestApiDrinkName,
+  requestApiIngredients,
+  requestApiLetra,
+  requestApiName } from '../services/api';
 
 function SearchBar() {
+  const history = useHistory();
+
   const {
     setIngredients,
     setName,
@@ -12,7 +20,7 @@ function SearchBar() {
     firstLetter,
     searchInputValue } = useContext(context);
 
-  const handleClick = async () => {
+  const handleClickMeals = async () => {
     if (ingredients === 'ingredients') {
       await requestApiIngredients(searchInputValue);
     }
@@ -24,6 +32,21 @@ function SearchBar() {
         global.alert('Your search must have only 1 (one) character');
       }
       await requestApiLetra(searchInputValue);
+    }
+  };
+
+  const handleClickDrinks = async () => {
+    if (ingredients === 'ingredients') {
+      await requestApiDrinkIngredients(searchInputValue);
+    }
+    if (name === 'name') {
+      await requestApiDrinkName(searchInputValue);
+    }
+    if (firstLetter === 'firstLetter') {
+      if (searchInputValue.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
+      await requestApiDrinkLetra(searchInputValue);
     }
   };
 
@@ -62,7 +85,9 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ handleClick }
+        onClick={ () => (
+          history.location.pathname === '/drinks'
+            ? handleClickDrinks() : handleClickMeals()) }
       >
         Filtrar
       </button>
