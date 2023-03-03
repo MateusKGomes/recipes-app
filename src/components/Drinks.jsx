@@ -1,7 +1,6 @@
-import React from 'react';
 import Header from './Header';
 
-function Meals() {
+function Drinks() {
   return (
     <div>
       <Header />
@@ -9,4 +8,4 @@ function Meals() {
   );
 }
 
-export default Meals;
+export default Drinks;
