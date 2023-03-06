@@ -7,8 +7,6 @@ import { requestApiDrinkIngredients,
   requestApiIngredients,
   requestApiLetra,
   requestApiName } from '../services/api';
-import RenderDrinks from './RenderDrinks';
-import RenderMeals from './RenderMeals';
 
 function SearchBar() {
   const history = useHistory();
@@ -131,8 +129,7 @@ function SearchBar() {
       >
         Filtrar
       </button>
-      <RenderMeals />
-      <RenderDrinks />
+
     </div>
   );
 }
