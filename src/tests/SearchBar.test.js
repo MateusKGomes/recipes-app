@@ -4,7 +4,7 @@ import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
 import Provider from '../context/RecipesProvider';
 import renderWithRouter from './helpers/RenderWithRouter';
-import { requestApiIngredients, requestApiDrinkIngredients, requestApiLetra } from './__mocks__/api';
+import { requestApiDrinkIngredients } from './__mocks__/api';
 
 const input = 'search-top-btn';
 const search = 'search-input';
@@ -126,8 +126,8 @@ describe('Testando o componente searchBar', () => {
       Promise.resolve();
     });
 
-    await requestApiIngredients();
-    await requestApiLetra();
+    // await requestApiIngredients();
+    // await requestApiLetra();
     await requestApiDrinkIngredients();
 
     const { history } = renderWithRouter(

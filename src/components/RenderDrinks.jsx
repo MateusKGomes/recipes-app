@@ -7,7 +7,7 @@ function RenderDrinks() {
   //   if (listOfDrinksRecipes.length === 0) {
   //     global.alert('Sorry, we haven\'t found any recipes for these filters.');
   //   }
-  const renderRecipes = listOfDrinksRecipes.drinks;
+  const renderRecipes = listOfDrinksRecipes?.drinks;
   const twelve = 12;
   const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
   return (
