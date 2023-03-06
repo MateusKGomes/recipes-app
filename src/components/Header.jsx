@@ -13,7 +13,6 @@ function Header() {
   const newTitle = title[0].toUpperCase() + title.substring(1)
     .replace('recipes', 'Recipes');
   const { searchInputValue, setSearchInputValue } = useContext(context);
-  console.log(searchInputValue);
 
   const verifyPathname = () => {
     if (pathname === '/meals' || pathname === '/drinks') {
@@ -75,8 +74,8 @@ function Header() {
           value={ searchInputValue }
         />
         }
-        <SearchBar />
       </header>
+      <SearchBar />
     </div>
   );
 }

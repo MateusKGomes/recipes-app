@@ -9,6 +9,8 @@ function Provider() {
   const [name, setName] = useState('');
   const [firstLetter, setFirstLetter] = useState('');
   const [searchInputValue, setSearchInputValue] = useState('');
+  const [listOfMealsRecipes, setListOfMealsRecipes] = useState([]);
+  const [listOfDrinksRecipes, setListOfDrinksRecipes] = useState([]);
 
   const values = useMemo(() => ({
     searchInputValue,
@@ -23,7 +25,18 @@ function Provider() {
     setTitle,
     login,
     setLogin,
-  }), [login, title, ingredients, name, firstLetter, searchInputValue]);
+    listOfMealsRecipes,
+    setListOfMealsRecipes,
+    listOfDrinksRecipes,
+    setListOfDrinksRecipes,
+  }), [login,
+    title,
+    ingredients,
+    name,
+    firstLetter,
+    searchInputValue,
+    listOfMealsRecipes,
+    listOfDrinksRecipes]);
 
   return (
     <context.Provider value={ values }>

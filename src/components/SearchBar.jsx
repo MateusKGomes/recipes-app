@@ -7,9 +7,12 @@ import { requestApiDrinkIngredients,
   requestApiIngredients,
   requestApiLetra,
   requestApiName } from '../services/api';
+import RenderDrinks from './RenderDrinks';
+import RenderMeals from './RenderMeals';
 
 function SearchBar() {
   const history = useHistory();
+  const { pathname } = history.location;
 
   const {
     setIngredients,
@@ -18,35 +21,69 @@ function SearchBar() {
     ingredients,
     name,
     firstLetter,
+    setListOfMealsRecipes,
+    setListOfDrinksRecipes,
     searchInputValue } = useContext(context);
+
+  const id = pathname.includes('/meals') ? 'idMeal' : 'idDrink';
+
+  const verifyResultMeal = (param) => {
+    if (param?.meals === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (param?.meals?.length === 1) {
+      history.push(`meals/${param.meals[0][id]}`);
+    }
+  };
+
+  const verifyResultDrink = (param) => {
+    if (param?.drinks === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (param?.drinks?.length === 1) {
+      history.push(`drinks/${param.drinks[0][id]}`);
+    }
+  };
 
   const handleClickMeals = async () => {
     if (ingredients === 'ingredients') {
-      await requestApiIngredients(searchInputValue);
+      const results = await requestApiIngredients(searchInputValue);
+      setListOfMealsRecipes(results);
+      verifyResultMeal(results);
     }
     if (name === 'name') {
-      await requestApiName(searchInputValue);
+      const results = await requestApiName(searchInputValue);
+      setListOfMealsRecipes(results);
+      verifyResultMeal(results);
     }
     if (firstLetter === 'firstLetter') {
       if (searchInputValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      await requestApiLetra(searchInputValue);
+      const results = await requestApiLetra(searchInputValue);
+      setListOfMealsRecipes(results);
+      verifyResultMeal(results);
     }
   };
 
   const handleClickDrinks = async () => {
     if (ingredients === 'ingredients') {
-      await requestApiDrinkIngredients(searchInputValue);
+      const results = await requestApiDrinkIngredients(searchInputValue);
+      setListOfDrinksRecipes(results);
+      verifyResultDrink(results);
     }
     if (name === 'name') {
-      await requestApiDrinkName(searchInputValue);
+      const results = await requestApiDrinkName(searchInputValue);
+      setListOfDrinksRecipes(results);
+      verifyResultDrink(results);
     }
     if (firstLetter === 'firstLetter') {
       if (searchInputValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
-      await requestApiDrinkLetra(searchInputValue);
+      const results = await requestApiDrinkLetra(searchInputValue);
+      setListOfDrinksRecipes(results);
+      verifyResultDrink(results);
     }
   };
 
@@ -56,15 +93,17 @@ function SearchBar() {
         <input
           data-testid="ingredient-search-radio"
           id="ingredient"
+          name="options"
           type="radio"
           onClick={ ({ target }) => setIngredients(target.value) }
           value="ingredients"
         />
         Ingredientes
       </label>
-      <label htmlFor="nome">
+      <label htmlFor="name">
         <input
           data-testid="name-search-radio"
+          name="options"
           id="name"
           type="radio"
           onClick={ ({ target }) => setName(target.value) }
@@ -77,6 +116,7 @@ function SearchBar() {
           data-testid="first-letter-search-radio"
           id="first-letter"
           type="radio"
+          name="options"
           onClick={ ({ target }) => setFirstLetter(target.value) }
           value="firstLetter"
         />
@@ -91,7 +131,8 @@ function SearchBar() {
       >
         Filtrar
       </button>
-
+      <RenderMeals />
+      <RenderDrinks />
     </div>
   );
 }
