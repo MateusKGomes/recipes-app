@@ -11,6 +11,7 @@ const search = 'search-input';
 const text = 'Your search must have only 1 (one) character';
 const radio = 'first-letter-search-radio';
 const textName = 'Sorry, we haven\'t found any recipes for these filters.';
+const nameSearchRadio = 'name-search-radio';
 
 describe('Testando o componente searchBar', () => {
   beforeEach(() => {
@@ -176,7 +177,7 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(searchBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'Moussaka');
-    const radioName = screen.getByTestId('name-search-radio');
+    const radioName = screen.getByTestId(nameSearchRadio);
     userEvent.click(radioName);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
@@ -239,7 +240,7 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(searchBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'gin');
-    const radioName = screen.getByTestId('name-search-radio');
+    const radioName = screen.getByTestId(nameSearchRadio);
     userEvent.click(radioName);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
