@@ -3,10 +3,6 @@ import context from '../context/RecipesContext';
 
 function RenderMeals() {
   const { listOfMealsRecipes } = useContext(context);
-
-  //   if (listOfMealsRecipes.length === 0) {
-  //     global.alert('Sorry, we haven\'t found any recipes for these filters.');
-  //   }
   const renderRecipes = listOfMealsRecipes?.meals;
   const twelve = 12;
   const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
