@@ -46,13 +46,13 @@ function SearchBar() {
   const handleClickMeals = async () => {
     if (ingredients === 'ingredients') {
       const results = await requestApiIngredients(searchInputValue);
-      setListOfMealsRecipes(results);
       verifyResultMeal(results);
+      setListOfMealsRecipes(results);
     }
     if (name === 'name') {
       const results = await requestApiName(searchInputValue);
-      setListOfMealsRecipes(results);
       verifyResultMeal(results);
+      setListOfMealsRecipes(results);
     }
     if (firstLetter === 'firstLetter') {
       if (searchInputValue.length > 1) {

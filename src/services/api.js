@@ -57,3 +57,26 @@ export const requestApiDrinkLetra = async (letraDrink) => {
     console.log(error.message);
   }
 };
+
+export const categoryMeals = async () => {
+  try {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const data = await response.json();
+    const five = 5;
+    const filterCategory = data.meals.filter((__el, index) => index < five);
+    return filterCategory;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const categoryDrinks = async () => {
+  try {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    const data = await response.json();
+    const filterCategory = data.meals.filter((__el, index) => index < five);
+    return filterCategory;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
