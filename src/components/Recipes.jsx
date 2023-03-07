@@ -6,9 +6,9 @@ import CategoryButton from './CategoryButton';
 function Recipes() {
   return (
     <div>
+      <CategoryButton />
       <RenderMeals />
       <RenderDrinks />
-      <CategoryButton />
     </div>
   );
 }

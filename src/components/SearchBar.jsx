@@ -47,6 +47,7 @@ function SearchBar() {
     if (ingredients === 'ingredients') {
       const results = await requestApiIngredients(searchInputValue);
       verifyResultMeal(results);
+      console.log(results);
       setListOfMealsRecipes(results);
     }
     if (name === 'name') {

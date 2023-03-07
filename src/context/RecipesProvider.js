@@ -13,7 +13,11 @@ function Provider() {
   const [listOfDrinksRecipes, setListOfDrinksRecipes] = useState([]);
   const [categoryButton, setCategoryButton] = useState({
     meals: [],
-    Drinks: [],
+    drinks: [],
+  });
+  const [recipesByCategory, setrecipesByCategory] = useState({
+    meals: [],
+    drinks: [],
   });
 
   const values = useMemo(() => ({
@@ -35,6 +39,8 @@ function Provider() {
     setListOfDrinksRecipes,
     categoryButton,
     setCategoryButton,
+    recipesByCategory,
+    setrecipesByCategory,
   }), [login,
     title,
     ingredients,
@@ -44,6 +50,7 @@ function Provider() {
     listOfMealsRecipes,
     listOfDrinksRecipes,
     categoryButton,
+    recipesByCategory,
   ]);
 
   return (
