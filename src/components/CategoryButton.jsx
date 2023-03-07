@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import context from '../context/RecipesContext';
 import { categoryMeals,
@@ -17,6 +17,8 @@ function CategoryButton() {
     // setlistOfMealsRecipes,
     // setlistOfDrinksRecipes,
   } = useContext(context);
+
+  const [bolleanCategory, setBolleanCategory] = useState(false);
 
   const history = useHistory();
 
@@ -41,6 +43,7 @@ function CategoryButton() {
       setrecipesByCategory({
         meals,
       });
+      setBolleanCategory(!bolleanCategory);
     } else {
       const filterRecipes = await categoryDrinksAPI(category);
       const twelve = 12;
@@ -48,9 +51,10 @@ function CategoryButton() {
       setrecipesByCategory({
         drinks,
       });
-    //   setlistOfDrinksRecipes(drinks);
+      setBolleanCategory(!bolleanCategory);
     }
   };
+
   const allCategory = async () => {
     const twelve = 12;
 
@@ -69,6 +73,12 @@ function CategoryButton() {
       });
     }
   };
+
+  useEffect(() => {
+    if (bolleanCategory === false) {
+      allCategory();
+    }
+  }, [bolleanCategory]);
 
   return (
     <div>
