@@ -1,12 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import context from '../context/RecipesContext';
+import { requestApiDrinkName } from '../services/api';
 
 function RenderDrinks() {
-  const { listOfDrinksRecipes } = useContext(context);
+  const { listOfDrinksRecipes, setListOfDrinksRecipes } = useContext(context);
 
   const renderRecipes = listOfDrinksRecipes?.drinks;
   const twelve = 12;
   const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
+
+  const callApi = async () => {
+    const allCategorysDrinks = await requestApiDrinkName();
+    const drinks = allCategorysDrinks?.drinks?.filter((el, index) => index < twelve);
+    setListOfDrinksRecipes({
+      drinks });
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
   return (
     <div>
       {
