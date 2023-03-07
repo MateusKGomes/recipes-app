@@ -12,6 +12,7 @@ const text = 'Your search must have only 1 (one) character';
 const radio = 'first-letter-search-radio';
 const textName = 'Sorry, we haven\'t found any recipes for these filters.';
 const nameSearchRadio = 'name-search-radio';
+const radioName = 'ingredient-search-radio';
 
 describe('Testando o componente searchBar', () => {
   beforeEach(() => {
@@ -177,8 +178,8 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(searchBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'Moussaka');
-    const radioName = screen.getByTestId(nameSearchRadio);
-    userEvent.click(radioName);
+    const radioName2 = screen.getByTestId(nameSearchRadio);
+    userEvent.click(radioName2);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
     });
@@ -209,8 +210,8 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(searchBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'lemon');
-    const radioName = screen.getByTestId('ingredient-search-radio');
-    userEvent.click(radioName);
+    const getRadio = screen.getByTestId(radioName);
+    userEvent.click(getRadio);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
     });
@@ -240,8 +241,8 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(searchBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'gin');
-    const radioName = screen.getByTestId(nameSearchRadio);
-    userEvent.click(radioName);
+    const radioName1 = screen.getByTestId(nameSearchRadio);
+    userEvent.click(radioName1);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
     });
@@ -297,7 +298,7 @@ describe('Testando o componente searchBar', () => {
     userEvent.click(profileBtn);
     const searchBar = screen.getByTestId(search);
     userEvent.type(searchBar, 'xablau');
-    const firstLetter = screen.getByTestId('name-search-radio');
+    const firstLetter = screen.getByTestId(nameSearchRadio);
     userEvent.click(firstLetter);
     const filterbtn = screen.getByRole('button', {
       name: /filtrar/i,
@@ -306,6 +307,147 @@ describe('Testando o componente searchBar', () => {
 
     await wait(2000);
 
+    expect(global.alert).toHaveBeenCalledTimes(0);
+  });
+  it('deve mostrar alerta quando não encontrar nenhuma bebida', async () => {
+    // Resposta da API não retornando dados
+    const fetchMock = (url) => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => {
+        if (url === 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon1') {
+          return Promise.resolve({ drinks: null });
+        }
+      },
+    });
+    window.fetch = fetchMock;
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+    act(() => {
+      history.push('/drinks');
+    });
+    jest.spyOn(global, 'alert').mockReturnValue(text);
+    const profileBtn = screen.getByTestId(input);
+    userEvent.click(profileBtn);
+    const searchBar = screen.getByTestId(search);
+    userEvent.type(searchBar, 'lemon1');
+    const radioName3 = screen.getByTestId(radioName);
+    userEvent.click(radioName3);
+    const firstLetter = screen.getByTestId(radio);
+    userEvent.click(firstLetter);
+    const filterbtn = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+    userEvent.click(filterbtn);
+    await wait(2000);
     expect(global.alert).toHaveBeenCalled();
+  });
+  it('Deve mostrar um alerta quando não achar nenhuma comida', async () => {
+    // Resposta da API não retornando dados
+    const fetchMock = (url) => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => {
+        if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=xablau') {
+          return Promise.resolve({ meals: null });
+        }
+      },
+    });
+    window.fetch = fetchMock;
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    jest.spyOn(global, 'alert').mockReturnValue(textName);
+    const profileBtn = screen.getByTestId(input);
+    userEvent.click(profileBtn);
+    const searchBar = screen.getByTestId(search);
+    userEvent.type(searchBar, 'xablau');
+    const firstLetter = screen.getByTestId(nameSearchRadio);
+    userEvent.click(firstLetter);
+    const filterbtn = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+    userEvent.click(filterbtn);
+    await wait(2000);
+    expect(global.alert).toHaveBeenCalled();
+    expect(global.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+  });
+  it('Deve redirecionar ao pesquisar uma comida', async () => {
+    // Resposta da API retornando dados
+    const fetchMock = (url) => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => {
+        if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=comida') {
+          return Promise.resolve({ meals: [{ idMeal: '123' }] });
+        }
+      },
+    });
+    window.fetch = fetchMock;
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    jest.spyOn(global, 'alert').mockReturnValue(textName);
+    const profileBtn = screen.getByTestId(input);
+    userEvent.click(profileBtn);
+    const searchBar = screen.getByTestId(search);
+    userEvent.type(searchBar, 'comida');
+    const firstLetter = screen.getByTestId(nameSearchRadio);
+    userEvent.click(firstLetter);
+    const filterbtn = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+    userEvent.click(filterbtn);
+    await wait(2000);
+    expect(history.location.pathname).toEqual('/meals/123');
+  });
+  it('deve redirecionar ao pesquisar uma bebida', async () => {
+    // Resposta da API não retornando dados
+    const fetchMock = (url) => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => {
+        if (url === 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon') {
+          return Promise.resolve({ drinks: [{ idDrink: '123' }] });
+        }
+      },
+    });
+    window.fetch = fetchMock;
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+    act(() => {
+      history.push('/drinks');
+    });
+    jest.spyOn(global, 'alert').mockReturnValue(text);
+    const profileBtn = screen.getByTestId(input);
+    userEvent.click(profileBtn);
+    const searchBar = screen.getByTestId(search);
+    userEvent.type(searchBar, 'lemon');
+    const firstLetter = screen.getByTestId(radio);
+    const radioName1 = screen.getByTestId(radioName);
+    userEvent.click(radioName1);
+    userEvent.click(firstLetter);
+    const filterbtn = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+    userEvent.click(filterbtn);
+    await wait(2000);
+    expect(history.location.pathname).toEqual('/drinks/123');
   });
 });

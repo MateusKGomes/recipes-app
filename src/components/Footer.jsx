@@ -14,6 +14,7 @@ export default function Footer() {
   return (
     <div>
       <footer data-testid="footer" style={ style }>
+
         <button
           type="button"
           onClick={ () => history.push('/drinks') }
