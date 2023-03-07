@@ -29,7 +29,7 @@ describe('Testa o componente Footer', () => {
     );
 
     act(() => {
-      history.push('/meals');
+      history.push('/meals'); //
     });
     const { pathname } = history.location;
 
