@@ -6,15 +6,12 @@ import { requestApiName } from '../services/api';
 function RenderMeals() {
   const { listOfMealsRecipes, setListOfMealsRecipes } = useContext(context);
   const twelve = 12;
-  // const filrteFunction = () => {
   const renderRecipes = listOfMealsRecipes?.meals;
   let filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
-  // setListOfMealsRecipes(filteredRecipes);
-  // };
 
   const callApi = async () => {
     const allCategorysMeals = await requestApiName();
-    //   setrecipesByCategory(allCategorysMeals);
+
     filteredRecipes = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
     setListOfMealsRecipes({ filteredRecipes });
   };
