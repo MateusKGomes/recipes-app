@@ -31,10 +31,6 @@ function CategoryButton() {
     });
   };
 
-  useEffect(() => {
-    setCategory();
-  }, []);
-
   const filterButton = async (category) => {
     if (history.location.pathname === '/meals') {
       const filterRecipes = await categoryMealsAPI(category);
@@ -80,6 +76,7 @@ function CategoryButton() {
     if (bolleanCategory === false) {
       allCategory();
     }
+    setCategory();
   }, [bolleanCategory]);
 
   return (
