@@ -8,13 +8,12 @@ function RenderDrinks() {
 
   const renderRecipes = listOfDrinksRecipes?.drinks;
   const twelve = 12;
-  const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
+  let filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
 
   const callApi = async () => {
     const allCategorysDrinks = await requestApiDrinkName();
-    const drinks = allCategorysDrinks?.drinks?.filter((el, index) => index < twelve);
-    setListOfDrinksRecipes({
-      drinks });
+    filteredRecipes = allCategorysDrinks?.drinks?.filter((el, index) => index < twelve);
+    setListOfDrinksRecipes({ filteredRecipes });
   };
 
   useEffect(() => {
@@ -28,10 +27,10 @@ function RenderDrinks() {
           <Link
             to={ `/drinks/${recipe.idDrink}` }
             key={ recipe.idDrink }
-            data-testid="{ `${index}-recipe-card` }"
+            data-testid={ `${index}-recipe-card` }
           >
             <p
-              data-testid="{ `${index}-card-name` }"
+              data-testid={ `${index}-card-name` }
             >
               {recipe.strDrink}
 
