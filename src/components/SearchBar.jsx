@@ -21,6 +21,7 @@ function SearchBar() {
     firstLetter,
     setListOfMealsRecipes,
     setListOfDrinksRecipes,
+    setrecipesByCategory,
     searchInputValue } = useContext(context);
 
   const id = pathname.includes('/meals') ? 'idMeal' : 'idDrink';
@@ -63,6 +64,10 @@ function SearchBar() {
       setListOfMealsRecipes(results);
       verifyResultMeal(results);
     }
+    setrecipesByCategory({
+      drinks: [],
+      meals: [],
+    });
   };
 
   const handleClickDrinks = async () => {
@@ -84,6 +89,10 @@ function SearchBar() {
       setListOfDrinksRecipes(results);
       verifyResultDrink(results);
     }
+    setrecipesByCategory({
+      drinks: [],
+      meals: [],
+    });
   };
 
   return (

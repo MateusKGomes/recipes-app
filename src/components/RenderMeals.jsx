@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../context/RecipesContext';
 import { requestApiName } from '../services/api';
 
@@ -28,7 +29,11 @@ function RenderMeals() {
       {
 
         filteredRecipes?.map((recipe, index) => (
-          <div key={ recipe.idMeal } data-testid={ `${index}-recipe-card` }>
+          <Link
+            to={ `/meals/${recipe.idMeal}` }
+            key={ recipe.idMeal }
+            data-testid={ `${index}-recipe-card` }
+          >
             <p
               data-testid={ `${index}-card-name` }
             >
@@ -40,7 +45,7 @@ function RenderMeals() {
               src={ recipe.strMealThumb }
               alt={ recipe.strMeal }
             />
-          </div>
+          </Link>
         ))
       }
     </div>

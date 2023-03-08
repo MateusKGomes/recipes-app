@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import context from '../context/RecipesContext';
 import { categoryMeals,
   categoryDrinks,
@@ -14,8 +14,8 @@ function CategoryButton() {
     setCategoryButton,
     recipesByCategory,
     setrecipesByCategory,
-    // setlistOfMealsRecipes,
-    // setlistOfDrinksRecipes,
+    setListOfMealsRecipes,
+    setListOfDrinksRecipes,
   } = useContext(context);
 
   const [bolleanCategory, setBolleanCategory] = useState(false);
@@ -53,6 +53,8 @@ function CategoryButton() {
       });
       setBolleanCategory(!bolleanCategory);
     }
+    setListOfMealsRecipes([]);
+    setListOfDrinksRecipes([]);
   };
 
   const allCategory = async () => {
@@ -117,7 +119,11 @@ function CategoryButton() {
       {
         history.location.pathname === '/meals'
           ? recipesByCategory?.meals?.map((recipe, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <Link
+              to={ `/meals/${recipe.idMeal}` }
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+            >
               <p
                 data-testid={ `${index}-card-name` }
               >
@@ -129,10 +135,14 @@ function CategoryButton() {
                 src={ recipe.strMealThumb }
                 alt={ recipe.strMeal }
               />
-            </div>
+            </Link>
           ))
           : recipesByCategory?.drinks?.map((recipe, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <Link
+              to={ `/drinks/${recipe.idDrink}` }
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+            >
               <p
                 data-testid={ `${index}-card-name` }
               >
@@ -144,7 +154,7 @@ function CategoryButton() {
                 src={ recipe.strDrinkThumb }
                 alt={ recipe.strDrink }
               />
-            </div>
+            </Link>
           ))
       }
     </div>
