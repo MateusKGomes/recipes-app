@@ -1,8 +1,11 @@
 import React from 'react';
+import RenderIdDetails from '../components/RenderIdDetails';
 
 function RecipeDetails() {
   return (
-    <div>RecipeDetails</div>
+    <div>
+      <RenderIdDetails />
+    </div>
   );
 }
 
