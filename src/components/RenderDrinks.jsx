@@ -28,10 +28,10 @@ function RenderDrinks() {
           <Link
             to={ `/drinks/${recipe.idDrink}` }
             key={ recipe.idDrink }
-            data-testid={ `${index}-recipe-card` }
+            data-testid="{ `${index}-recipe-card` }"
           >
             <p
-              data-testid={ `${index}-card-name` }
+              data-testid="{ `${index}-card-name` }"
             >
               {recipe.strDrink}
 

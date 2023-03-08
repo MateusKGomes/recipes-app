@@ -32,10 +32,10 @@ function RenderMeals() {
           <Link
             to={ `/meals/${recipe.idMeal}` }
             key={ recipe.idMeal }
-            data-testid={ `${index}-recipe-card` }
+            data-testid="{ `${index}-recipe-card` }"
           >
             <p
-              data-testid={ `${index}-card-name` }
+              data-testid="{ `${index}-card-name` }"
             >
               {recipe.strMeal}
 
