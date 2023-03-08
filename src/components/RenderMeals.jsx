@@ -8,16 +8,15 @@ function RenderMeals() {
   const twelve = 12;
   // const filrteFunction = () => {
   const renderRecipes = listOfMealsRecipes?.meals;
-  const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
+  let filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
   // setListOfMealsRecipes(filteredRecipes);
   // };
 
   const callApi = async () => {
     const allCategorysMeals = await requestApiName();
     //   setrecipesByCategory(allCategorysMeals);
-    const meals = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
-    setListOfMealsRecipes({
-      meals });
+    filteredRecipes = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
+    setListOfMealsRecipes({ filteredRecipes });
   };
 
   useEffect(() => {
@@ -26,28 +25,25 @@ function RenderMeals() {
 
   return (
     <div>
-      {
-
-        filteredRecipes?.map((recipe, index) => (
-          <Link
-            to={ `/meals/${recipe.idMeal}` }
-            key={ recipe.idMeal }
-            data-testid={ `${index}-recipe-card` }
+      { filteredRecipes?.map((recipe, index) => (
+        <Link
+          data-testid={ `${index}-recipe-card` }
+          to={ `/meals/${recipe.idMeal}` }
+          key={ recipe.idMeal }
+        >
+          <p
+            data-testid={ `${index}-card-name` }
           >
-            <p
-              data-testid={ `${index}-card-name` }
-            >
-              {recipe.strMeal}
+            {recipe.strMeal}
 
-            </p>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ recipe.strMealThumb }
-              alt={ recipe.strMeal }
-            />
-          </Link>
-        ))
-      }
+          </p>
+          <img
+            data-testid={ `${index}-card-img` }
+            src={ recipe.strMealThumb }
+            alt={ recipe.strMeal }
+          />
+        </Link>
+      ))}
     </div>
   );
 }
