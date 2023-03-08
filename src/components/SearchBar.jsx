@@ -21,6 +21,7 @@ function SearchBar() {
     firstLetter,
     setListOfMealsRecipes,
     setListOfDrinksRecipes,
+    setrecipesByCategory,
     searchInputValue } = useContext(context);
 
   const id = pathname.includes('/meals') ? 'idMeal' : 'idDrink';
@@ -46,13 +47,14 @@ function SearchBar() {
   const handleClickMeals = async () => {
     if (ingredients === 'ingredients') {
       const results = await requestApiIngredients(searchInputValue);
-      setListOfMealsRecipes(results);
       verifyResultMeal(results);
+      console.log(results);
+      setListOfMealsRecipes(results);
     }
     if (name === 'name') {
       const results = await requestApiName(searchInputValue);
-      setListOfMealsRecipes(results);
       verifyResultMeal(results);
+      setListOfMealsRecipes(results);
     }
     if (firstLetter === 'firstLetter') {
       if (searchInputValue.length > 1) {
@@ -62,6 +64,10 @@ function SearchBar() {
       setListOfMealsRecipes(results);
       verifyResultMeal(results);
     }
+    setrecipesByCategory({
+      drinks: [],
+      meals: [],
+    });
   };
 
   const handleClickDrinks = async () => {
@@ -83,6 +89,10 @@ function SearchBar() {
       setListOfDrinksRecipes(results);
       verifyResultDrink(results);
     }
+    setrecipesByCategory({
+      drinks: [],
+      meals: [],
+    });
   };
 
   return (

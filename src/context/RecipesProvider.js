@@ -11,6 +11,14 @@ function Provider() {
   const [searchInputValue, setSearchInputValue] = useState('');
   const [listOfMealsRecipes, setListOfMealsRecipes] = useState([]);
   const [listOfDrinksRecipes, setListOfDrinksRecipes] = useState([]);
+  const [categoryButton, setCategoryButton] = useState({
+    meals: [],
+    drinks: [],
+  });
+  const [recipesByCategory, setrecipesByCategory] = useState({
+    meals: [],
+    drinks: [],
+  });
 
   const values = useMemo(() => ({
     searchInputValue,
@@ -29,6 +37,10 @@ function Provider() {
     setListOfMealsRecipes,
     listOfDrinksRecipes,
     setListOfDrinksRecipes,
+    categoryButton,
+    setCategoryButton,
+    recipesByCategory,
+    setrecipesByCategory,
   }), [login,
     title,
     ingredients,
@@ -36,7 +48,10 @@ function Provider() {
     firstLetter,
     searchInputValue,
     listOfMealsRecipes,
-    listOfDrinksRecipes]);
+    listOfDrinksRecipes,
+    categoryButton,
+    recipesByCategory,
+  ]);
 
   return (
     <context.Provider value={ values }>

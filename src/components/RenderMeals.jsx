@@ -1,18 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import context from '../context/RecipesContext';
+import { requestApiName } from '../services/api';
 
 function RenderMeals() {
-  const { listOfMealsRecipes } = useContext(context);
-  const renderRecipes = listOfMealsRecipes?.meals;
+  const { listOfMealsRecipes, setListOfMealsRecipes } = useContext(context);
   const twelve = 12;
+  // const filrteFunction = () => {
+  const renderRecipes = listOfMealsRecipes?.meals;
   const filteredRecipes = renderRecipes?.filter((el, index) => index < twelve);
+  // setListOfMealsRecipes(filteredRecipes);
+  // };
+
+  const callApi = async () => {
+    const allCategorysMeals = await requestApiName();
+    //   setrecipesByCategory(allCategorysMeals);
+    const meals = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
+    setListOfMealsRecipes({
+      meals });
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
 
   return (
     <div>
       {
 
         filteredRecipes?.map((recipe, index) => (
-          <div key={ recipe.idMeal } data-testid={ `${index}-recipe-card` }>
+          <Link
+            to={ `/meals/${recipe.idMeal}` }
+            key={ recipe.idMeal }
+            data-testid={ `${index}-recipe-card` }
+          >
             <p
               data-testid={ `${index}-card-name` }
             >
@@ -24,7 +45,7 @@ function RenderMeals() {
               src={ recipe.strMealThumb }
               alt={ recipe.strMeal }
             />
-          </div>
+          </Link>
         ))
       }
     </div>
