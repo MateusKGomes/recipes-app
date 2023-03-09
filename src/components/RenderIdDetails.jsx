@@ -12,8 +12,6 @@ function RenderIdDetails() {
   const getIdMeals = id.slice(sliceNumber);
   const getIdDrinks = id.slice(sliceNumber2);
 
-  console.log(recipesDetails.drinks);
-
   const fetchDetailId = async () => {
     if (location.pathname.includes('meals')) {
       const meals = await detailsMeals(getIdMeals);
@@ -26,7 +24,6 @@ function RenderIdDetails() {
 
   useEffect(() => {
     fetchDetailId();
-    console.log('entrei no effect');
   }, []);
 
   return (
