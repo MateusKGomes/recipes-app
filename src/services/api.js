@@ -101,3 +101,23 @@ export const categoryDrinksAPI = async (category) => {
     console.log(error.message);
   }
 };
+
+export const detailsDrink = async (details) => {
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${details}`);
+    const data = await response.json();
+    return data.drinks;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const detailsMeals = async (details) => {
+  try {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${details}`);
+    const data = await response.json();
+    return data.meals;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
