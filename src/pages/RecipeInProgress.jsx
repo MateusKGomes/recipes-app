@@ -9,8 +9,18 @@ function RecipeInProgress() {
     meals: [],
     drinks: [],
   });
+  const [isChecked, setIsChecked] = useState(false);
+
   const location = useLocation();
   const { id } = useParams();
+
+  const style = {
+    textDecoration: 'line-through solid rgb(0, 0, 0)',
+  };
+
+  const style2 = {
+    textDecoration: 'none',
+  };
 
   const fechIdRecipe = async () => {
     if (location.pathname.includes('meals')) {
@@ -22,9 +32,19 @@ function RecipeInProgress() {
     }
   };
 
+  const checkStyle = () => {
+    if (isChecked) {
+      setIsChecked(false);
+    } else {
+      setIsChecked(true);
+    }
+  };
+
   useEffect(() => {
     fechIdRecipe();
   }, []);
+
+  const setStyle = isChecked ? style : style2;
 
   return (
     <div>
@@ -52,10 +72,21 @@ function RecipeInProgress() {
                 .startsWith('strIngredient') && detail[1])
                 .map((item, index) => (
                   <li
+                    className={ `checked-${index}` }
                     data-testid={ `${index}-ingredient-name-and-measure` }
                     key={ index }
                   >
-                    { item[1] }
+                    <label
+                      style={ setStyle }
+                      data-testid={ `${index}-ingredient-step` }
+                    >
+                      <input
+                        name="isChecked"
+                        type="checkbox"
+                        onChange={ checkStyle }
+                      />
+                      { item[1] }
+                    </label>
                   </li>
                 )) }
             </ul>
@@ -102,10 +133,20 @@ function RecipeInProgress() {
                 .startsWith('strIngredient') && detail[1])
                 .map((item, index) => (
                   <li
-                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    style={ setStyle }
                     key={ index }
                   >
-                    { item[1] }
+                    <label
+                      data-testid={ `${index}-ingredient-step` }
+                    >
+                      <input
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                        name="isChecked"
+                        type="checkbox"
+                        onChange={ checkStyle }
+                      />
+                      { item[1] }
+                    </label>
                   </li>
                 )) }
             </ul>

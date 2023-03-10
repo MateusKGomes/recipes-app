@@ -58,7 +58,6 @@ function CategoryButton() {
 
     if (history.location.pathname === '/meals') {
       const allCategorysMeals = await requestApiName();
-      //   setrecipesByCategory(allCategorysMeals);
       const meals = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
       setrecipesByCategory({
         meals,

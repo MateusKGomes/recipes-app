@@ -50,7 +50,7 @@ function RecipeDetails() {
     ? recipesDetails[pathName][0]?.strInstructions
     : recipesDetails[pathName][0]?.strInstructions;
 
-  const ingredients = recipesDetails[pathName]?.map((detail) => (
+  const ingredients = recipesDetails[pathName]?.map(() => (
     Object.entries(recipesDetails[pathName][0])
       .filter((item) => item[0]
         .startsWith('strIngredient') && item[1])?.map((el) => el[1])
