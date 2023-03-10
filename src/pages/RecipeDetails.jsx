@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import FavoriteRecipe from '../components/FavoriteRecipe';
 import Recommendation from '../components/Recommendation';
 import RenderIdDetails from '../components/RenderIdDetails';
@@ -10,8 +10,11 @@ function RecipeDetails() {
   const { recipesDetails } = useContext(context);
 
   const history = useHistory();
-  const pathName = history.location.pathname.includes('meals') ? 'meals' : 'drinks';
-  const idRecipe = history.location.pathname.includes('meals')
+  const location = useLocation();
+
+  // const [ingredients, setIngredients] = useState([]);
+  const pathName = location.pathname.includes('meals') ? 'meals' : 'drinks';
+  const idRecipe = location.pathname.includes('meals')
     ? recipesDetails[pathName][0]?.idMeal
     : recipesDetails[pathName][0]?.idDrink;
 
@@ -26,13 +29,47 @@ function RecipeDetails() {
     bottom: 0,
   };
 
+  const image = location.pathname.includes('meals')
+    ? recipesDetails[pathName][0]?.strMealThumb
+    : recipesDetails[pathName][0]?.strDrinkThumb;
+  const tittle = location.pathname.includes('meals')
+    ? recipesDetails[pathName][0]?.strMeal
+    : recipesDetails[pathName][0]?.strDrink;
+  const alcoholicOrNot = location.pathname.includes('meals')
+    ? ''
+    : recipesDetails[pathName][0]?.strAlcoholic;
+
+  const type = location.pathname.includes('meals')
+    ? 'meal' : 'drink';
+
+  const category = location.pathname.includes('meals')
+    ? recipesDetails[pathName][0]?.strCategory
+    : recipesDetails[pathName][0]?.strAlcoholic;
+
+  const instructions = location.pathname.includes('meals')
+    ? recipesDetails[pathName][0]?.strInstructions
+    : recipesDetails[pathName][0]?.strInstructions;
+
+  const ingredients = recipesDetails[pathName]?.map((detail) => (
+    Object.entries(recipesDetails[pathName][0])
+      .filter((item) => item[0]
+        .startsWith('strIngredient') && item[1])?.map((el) => el[1])
+  ));
+
   const setLocalItems = () => {
-    if (history.location.pathname.includes('meals')) {
+    if (location.pathname.includes('meals')) {
       history.push(`/meals/${recipesDetails.meals[0].idMeal}/in-progress`);
       localStorage.setItem('inProgressRecipes', JSON.stringify({
         meals: {
           ...recipesInProgress.meals,
-          [idRecipe]: [],
+          [idRecipe]: [
+            ingredients,
+            image,
+            tittle,
+            category,
+            type,
+            instructions,
+          ],
         },
         drinks: {
         },
@@ -43,7 +80,15 @@ function RecipeDetails() {
         meals: {
         },
         drinks: {
-          [idRecipe]: [],
+          [idRecipe]: [
+            ingredients,
+            image,
+            tittle,
+            alcoholicOrNot,
+            category,
+            type,
+            instructions,
+          ],
         },
       }));
     }

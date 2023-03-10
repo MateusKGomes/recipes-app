@@ -27,6 +27,7 @@ function Provider() {
     meals: [],
     drinks: [],
   });
+  const [isFavorite, setIsFavorite] = useState([]);
 
   const values = useMemo(() => ({
     searchInputValue,
@@ -53,6 +54,8 @@ function Provider() {
     setRecipesDetails,
     recommendations,
     setRecommendations,
+    isFavorite,
+    setIsFavorite,
   }), [login,
     title,
     ingredients,
@@ -65,6 +68,7 @@ function Provider() {
     recipesByCategory,
     recipesDetails,
     recommendations,
+    isFavorite,
   ]);
 
   return (
