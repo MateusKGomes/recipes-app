@@ -9,7 +9,10 @@ function RecipeInProgress() {
     meals: [],
     drinks: [],
   });
-  const [isChecked, setIsChecked] = useState(false);
+  const ingredientesSalvos = localStorage.getItem('ingredientesChecados');
+  const [ingredientesChecados, setIngredientesChecados] = useState(
+    JSON.parse(ingredientesSalvos || '[]'),
+  );
 
   const location = useLocation();
   const { id } = useParams();
@@ -32,19 +35,20 @@ function RecipeInProgress() {
     }
   };
 
-  const checkStyle = () => {
-    if (isChecked) {
-      setIsChecked(false);
-    } else {
-      setIsChecked(true);
+  const checkStyle = (itemChecado, itemNome) => {
+    const listaIngredientes = ingredientesChecados.filter(
+      (ingrediente) => ingrediente !== itemNome,
+    );
+    if (itemChecado) {
+      listaIngredientes.push(itemNome);
     }
+    setIngredientesChecados(listaIngredientes);
+    localStorage.setItem('ingredientesChecados', JSON.stringify(listaIngredientes));
   };
 
   useEffect(() => {
     fechIdRecipe();
   }, []);
-
-  const setStyle = isChecked ? style : style2;
 
   return (
     <div>
@@ -77,13 +81,16 @@ function RecipeInProgress() {
                     key={ index }
                   >
                     <label
-                      style={ setStyle }
+                      style={ ingredientesChecados.includes(item[1]) ? style : style2 }
                       data-testid={ `${index}-ingredient-step` }
                     >
                       <input
                         name="isChecked"
+                        defaultChecked={ ingredientesChecados.includes(item[1]) }
                         type="checkbox"
-                        onChange={ checkStyle }
+                        onChange={
+                          ($event) => checkStyle($event.target.checked, item[1])
+                        }
                       />
                       { item[1] }
                     </label>
@@ -133,17 +140,20 @@ function RecipeInProgress() {
                 .startsWith('strIngredient') && detail[1])
                 .map((item, index) => (
                   <li
-                    style={ setStyle }
                     key={ index }
                   >
                     <label
+                      style={ ingredientesChecados.includes(item[1]) ? style : style2 }
                       data-testid={ `${index}-ingredient-step` }
                     >
                       <input
                         data-testid={ `${index}-ingredient-name-and-measure` }
                         name="isChecked"
+                        defaultChecked={ ingredientesChecados.includes(item[1]) }
                         type="checkbox"
-                        onChange={ checkStyle }
+                        onChange={
+                          ($event) => checkStyle($event.target.checked, item[1])
+                        }
                       />
                       { item[1] }
                     </label>

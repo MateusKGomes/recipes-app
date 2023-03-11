@@ -74,4 +74,21 @@ describe('testando o componente Recipes', () => {
 
     expect(recipe).toBeInTheDocument();
   });
+
+  it('Acessando os detalhes', async () => {
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+
+    act(() => {
+      history.push('/drinks/178319');
+    });
+    await wait(1500);
+    const title = screen.getByTestId('recipe-title');
+    const button = screen.getByTestId('start-recipe-btn');
+    button.click();
+    expect(title).toBeInTheDocument();
+  });
 });

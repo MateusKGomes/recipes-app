@@ -13,9 +13,7 @@ function FavoriteRecipe() {
   const {
     recipesDetails,
     isFavorite,
-    etIsFavorite,
-    listRecipes,
-    setlistRecipes } = useContext(context);
+    setIsFavorite } = useContext(context);
 
   const location = useLocation();
   const pathName = location.pathname.includes('meals') ? 'meals' : 'drinks';

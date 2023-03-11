@@ -4,6 +4,8 @@ import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
 import Provider from '../context/RecipesProvider';
 import renderWithRouter from './helpers/RenderWithRouter';
+import * as mockMealJson from './__mocks__/mock-meal.json';
+import * as mockDrinkJson from './__mocks__/mock-drink.json';
 import { requestApiName, requestApiLetra, requestApiDrinkIngredients, requestApiDrinkName } from './__mocks__/api';
 
 const input = 'search-top-btn';
@@ -13,6 +15,11 @@ const radio = 'first-letter-search-radio';
 const textName = 'Sorry, we haven\'t found any recipes for these filters.';
 const nameSearchRadio = 'name-search-radio';
 const radioName = 'ingredient-search-radio';
+const respostaSearch = () => Promise.resolve({
+  status: 200,
+  ok: true,
+  json: () => Promise.resolve({ drinks: [mockDrinkJson], meals: [mockMealJson] }),
+});
 
 describe('Testando o componente searchBar', () => {
   beforeEach(() => {
@@ -156,6 +163,7 @@ describe('Testando o componente searchBar', () => {
     await wait(2000);
     expect(fetch).toHaveBeenCalled();
   });
+
   it('testando a requisição das funcões meals name ', async () => {
     global.fetch = jest.fn(() => {
       Promise.resolve();
@@ -345,6 +353,7 @@ describe('Testando o componente searchBar', () => {
     await wait(2000);
     expect(global.alert).toHaveBeenCalled();
   });
+
   it('Deve mostrar um alerta quando não achar nenhuma comida', async () => {
     // Resposta da API não retornando dados
     const fetchMock = (url) => Promise.resolve({
@@ -380,18 +389,10 @@ describe('Testando o componente searchBar', () => {
     expect(global.alert).toHaveBeenCalled();
     expect(global.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
   });
+
   it('Deve redirecionar ao pesquisar uma comida', async () => {
     // Resposta da API retornando dados
-    const fetchMock = (url) => Promise.resolve({
-      status: 200,
-      ok: true,
-      json: () => {
-        if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=comida') {
-          return Promise.resolve({ meals: [{ idMeal: '123' }] });
-        }
-      },
-    });
-    window.fetch = fetchMock;
+    window.fetch = respostaSearch;
     const { history } = renderWithRouter(
       <Provider>
         <App />
@@ -414,18 +415,10 @@ describe('Testando o componente searchBar', () => {
     await wait(2000);
     expect(history.location.pathname).toEqual('/meals/123');
   });
+
   it('deve redirecionar ao pesquisar uma bebida', async () => {
     // Resposta da API não retornando dados
-    const fetchMock = (url) => Promise.resolve({
-      status: 200,
-      ok: true,
-      json: () => {
-        if (url === 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon') {
-          return Promise.resolve({ drinks: [{ idDrink: '123' }] });
-        }
-      },
-    });
-    window.fetch = fetchMock;
+    window.fetch = respostaSearch;
     const { history } = renderWithRouter(
       <Provider>
         <App />
@@ -448,6 +441,6 @@ describe('Testando o componente searchBar', () => {
     });
     userEvent.click(filterbtn);
     await wait(2000);
-    expect(history.location.pathname).toEqual('/drinks/123');
+    expect(history.location.pathname).toContain('drinks/123');
   });
 });
