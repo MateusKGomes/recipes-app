@@ -22,6 +22,7 @@ function Login() {
     const { email } = login;
     localStorage.setItem('user', JSON.stringify({ email }));
     history.push('/meals');
+    setLogin({ email: '', password: '' });
   };
 
   return (
