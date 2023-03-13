@@ -6,7 +6,7 @@ import { detailsDrink, detailsMeals } from '../services/api';
 import context from '../context/RecipesContext';
 
 function RecipeInProgress() {
-  const { isDone, setIsDone, setRecipesDetails } = useContext(context);
+  const { isDone, setRecipesDetails } = useContext(context);
   const history = useHistory();
   const [progressRecipe, setProgressRecipe] = useState({
     meals: [],
@@ -25,6 +25,8 @@ function RecipeInProgress() {
   const style2 = {
     textDecoration: 'none',
   };
+  const newDate = new Date();
+  const now = newDate.toLocaleDateString();
   const fechIdRecipe = async () => {
     if (location.pathname.includes('meals')) {
       const meals = await detailsMeals(id);
@@ -36,6 +38,7 @@ function RecipeInProgress() {
       setRecipesDetails({ drinks });
     }
   };
+
   const checkStyle = (itemChecado, itemNome) => {
     const listaIngredientes = ingredientesChecados.filter(
       (ingrediente) => ingrediente !== itemNome,
@@ -52,7 +55,6 @@ function RecipeInProgress() {
         .startsWith('strIngredient') && item[1])?.map((el) => el[1])
   ));
   const checkedDisabled = ingredients[0]?.length === ingredientesChecados?.length;
-  console.log(checkedDisabled);
   const image = location.pathname.includes('meals')
     ? progressRecipe[pathName][0]?.strMealThumb
     : progressRecipe[pathName][0]?.strDrinkThumb;
@@ -67,23 +69,12 @@ function RecipeInProgress() {
     : '';
   const type = location.pathname.includes('meals')
     ? 'meal' : 'drink';
-
+  const tag = progressRecipe[pathName][0]?.strTags?.split(', ');
   const saveRecipe = () => {
     // if (isDone.some((el) => +el.id === +id)) {
     //   localStorage.setItem('doneRecipes', JSON
     //     .stringify(setIsDone(isDone.filter((item) => +item.id !== +id))));
     // } else {
-    console.log([
-      ...isDone,
-      {
-        id,
-        type,
-        nationality,
-        category: progressRecipe[pathName][0]?.strCategory,
-        alcoholicOrNot,
-        name,
-        image,
-      }]);
     localStorage.setItem('doneRecipes', JSON
       .stringify([
         ...isDone,
@@ -95,13 +86,12 @@ function RecipeInProgress() {
           alcoholicOrNot,
           name,
           image,
+          doneDate: now,
+          tags: tag,
         }]));
     // }
     history.push('/done-recipes');
   };
-
-  console.log(isDone);
-
   useEffect(() => {
     localStorage.setItem('doneRecipes', JSON
       .stringify(isDone));
@@ -111,7 +101,6 @@ function RecipeInProgress() {
   useEffect(() => {
     fechIdRecipe();
   }, []);
-
   return (
     <div>
       { location.pathname.includes('meals')
@@ -249,7 +238,6 @@ function RecipeInProgress() {
       >
         Finish Recipe
       </button>
-
       <ShareRecipe />
       <FavoriteRecipe />
     </div>

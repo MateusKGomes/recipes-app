@@ -65,7 +65,6 @@ function FavoriteRecipe() {
   return (
 
     <div>
-      {console.log(recipesDetails[pathName])}
       { recipesDetails[pathName].length > 0 && (
         <button
           type="button"
