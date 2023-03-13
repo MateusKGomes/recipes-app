@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 function ProfileDetails() {
   const history = useHistory();
   const userEmail = JSON.parse(localStorage.getItem('user'));
-  console.log(!!userEmail);
 
   const logout = () => {
     localStorage.removeItem('user');
