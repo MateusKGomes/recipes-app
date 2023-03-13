@@ -41,4 +41,14 @@ describe('Teste de cobertura da tela RecipeInProgress', () => {
     checkbox.click();
     expect(checkbox).toBeInTheDocument();
   });
+  test('testa a rota do botão finish', () => {
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+    act(() => {
+      history.push('/drinks/178319/');
+    });
+  });
 });
