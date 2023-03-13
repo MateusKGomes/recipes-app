@@ -12,7 +12,6 @@ function RecipeDetails() {
   const history = useHistory();
   const location = useLocation();
 
-  // const [ingredients, setIngredients] = useState([]);
   const pathName = location.pathname.includes('meals') ? 'meals' : 'drinks';
   const idRecipe = location.pathname.includes('meals')
     ? recipesDetails[pathName][0]?.idMeal

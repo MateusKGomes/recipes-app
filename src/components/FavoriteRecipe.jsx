@@ -39,6 +39,7 @@ function FavoriteRecipe() {
       .some((el) => +el.id === +id)) {
       setIsFavorite(isFavorite.filter((item) => +item.id !== +id));
     } else {
+      console.log(name, 'name');
       setIsFavorite(
         [
           ...isFavorite,
@@ -62,19 +63,23 @@ function FavoriteRecipe() {
   }, [isFavorite]);
 
   return (
+
     <div>
-      <button
-        type="button"
-        style={ style }
-        onClick={ saveLocal }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ isFavorite
-            .some((el) => +el.id === +id) ? blackHeartIcon : whiteHeartIcon }
-          alt="toggle-favorite"
-        />
-      </button>
+      {console.log(recipesDetails[pathName])}
+      { recipesDetails[pathName].length > 0 && (
+        <button
+          type="button"
+          style={ style }
+          onClick={ saveLocal }
+        >
+          <img
+            data-testid="favorite-btn"
+            src={ isFavorite
+              .some((el) => +el.id === +id) ? blackHeartIcon : whiteHeartIcon }
+            alt="toggle-favorite"
+          />
+        </button>
+      ) }
     </div>
   );
 }
