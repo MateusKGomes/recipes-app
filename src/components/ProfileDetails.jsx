@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 function ProfileDetails() {
   const history = useHistory();
   const userEmail = JSON.parse(localStorage.getItem('user'));
-  console.log(userEmail.email);
+  console.log(!!userEmail);
 
   const logout = () => {
     localStorage.removeItem('user');
@@ -20,7 +20,7 @@ function ProfileDetails() {
       <p
         data-testid="profile-email"
       >
-        { userEmail.email }
+        { userEmail ? userEmail.email : 'email@email.com' }
 
       </p>
 
