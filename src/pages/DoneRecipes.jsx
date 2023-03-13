@@ -25,7 +25,7 @@ function DoneRecipes() {
       >
         Drinks
       </button>
-      { get.map((item, index) => (
+      { get?.map((item, index) => (
         <div key={ index }>
           <img
             src=""
@@ -57,7 +57,6 @@ function DoneRecipes() {
             Compartilhar
           </button>
         </div>
-
       ))}
 
     </div>

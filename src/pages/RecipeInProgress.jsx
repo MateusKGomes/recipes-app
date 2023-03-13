@@ -71,10 +71,6 @@ function RecipeInProgress() {
     ? 'meal' : 'drink';
   const tag = progressRecipe[pathName][0]?.strTags?.split(', ');
   const saveRecipe = () => {
-    // if (isDone.some((el) => +el.id === +id)) {
-    //   localStorage.setItem('doneRecipes', JSON
-    //     .stringify(setIsDone(isDone.filter((item) => +item.id !== +id))));
-    // } else {
     localStorage.setItem('doneRecipes', JSON
       .stringify([
         ...isDone,
