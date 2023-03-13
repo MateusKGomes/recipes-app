@@ -25,9 +25,7 @@ function RecipeInProgress() {
   const style2 = {
     textDecoration: 'none',
   };
-  const newDate = new Date(Date.now());
-  const now = `${newDate.getDay()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
-  console.log(now);
+  const newDate = new Date();
   const fechIdRecipe = async () => {
     if (location.pathname.includes('meals')) {
       const meals = await detailsMeals(id);
@@ -70,7 +68,7 @@ function RecipeInProgress() {
     : '';
   const type = location.pathname.includes('meals')
     ? 'meal' : 'drink';
-  const tag = progressRecipe[pathName][0]?.strTags?.split(',', ' ') || [];
+  const tag = progressRecipe[pathName][0]?.strTags?.split(',') || [];
   console.log(tag);
   const saveRecipe = () => {
     localStorage.setItem('doneRecipes', JSON
@@ -84,7 +82,7 @@ function RecipeInProgress() {
           alcoholicOrNot,
           name,
           image,
-          doneDate: now,
+          doneDate: newDate.toISOString(),
           tags: tag,
         }]));
     // }
