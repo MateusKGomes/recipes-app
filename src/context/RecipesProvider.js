@@ -27,8 +27,15 @@ function Provider() {
     meals: [],
     drinks: [],
   });
+  const [isFavorite, setIsFavorite] = useState(JSON
+    .parse(localStorage.getItem('favoriteRecipes')) || []);
+
+  const [listRecipes, setlistRecipes] = useState(JSON
+    .parse(localStorage.getItem('favoriteRecipes')) || []);
 
   const values = useMemo(() => ({
+    listRecipes,
+    setlistRecipes,
     searchInputValue,
     setSearchInputValue,
     ingredients,
@@ -53,7 +60,10 @@ function Provider() {
     setRecipesDetails,
     recommendations,
     setRecommendations,
+    isFavorite,
+    setIsFavorite,
   }), [login,
+    listRecipes,
     title,
     ingredients,
     name,
@@ -65,6 +75,7 @@ function Provider() {
     recipesByCategory,
     recipesDetails,
     recommendations,
+    isFavorite,
   ]);
 
   return (

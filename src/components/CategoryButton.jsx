@@ -58,7 +58,6 @@ function CategoryButton() {
 
     if (history.location.pathname === '/meals') {
       const allCategorysMeals = await requestApiName();
-      //   setrecipesByCategory(allCategorysMeals);
       const meals = allCategorysMeals?.meals?.filter((el, index) => index < twelve);
       setrecipesByCategory({
         meals,
@@ -83,7 +82,7 @@ function CategoryButton() {
     <div>
       {
         history.location.pathname === '/meals'
-          ? categoryButton?.meals.map(({ strCategory }) => (
+          ? categoryButton?.meals?.map(({ strCategory }) => (
             <button
               key={ strCategory }
               type="button"
@@ -94,7 +93,7 @@ function CategoryButton() {
 
             </button>
           ))
-          : categoryButton?.drinks.map(({ strCategory }) => (
+          : categoryButton?.drinks?.map(({ strCategory }) => (
             <button
               key={ strCategory }
               type="button"
