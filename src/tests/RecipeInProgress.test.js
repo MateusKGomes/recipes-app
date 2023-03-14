@@ -42,7 +42,6 @@ describe('Teste de cobertura da tela RecipeInProgress', () => {
     expect(checkbox).toBeInTheDocument();
   });
 
-
   test('Deve clicar em um checkbox de ingrediente para comida', async () => {
     const { history } = renderWithRouter(
       <Provider>
@@ -53,7 +52,7 @@ describe('Teste de cobertura da tela RecipeInProgress', () => {
     act(() => {
       history.push('/meals/52977/in-progress');
     });
-    await wait(1500);
+    await wait(2000);
 
     const checkbox = screen.getAllByTestId('0-ingredient-name-and-measure')[0];
     // Marcar item

@@ -17,7 +17,7 @@ describe('testando o componente Recipes', () => {
       history.push('/meals');
     });
 
-    await wait(1500);
+    await wait(2000);
     const btnBeef = screen.getByTestId('Beef-category-filter');
     const btnBreakfast = screen.getByTestId('Breakfast-category-filter');
     const btnChicken = screen.getByTestId('Chicken-category-filter');
@@ -110,4 +110,24 @@ describe('testando o componente Recipes', () => {
     expect(pathname).toBe('/drinks/178319/in-progress');
     expect(title).toBeInTheDocument();
   });
+
+  it('Acessando os detalhes da comida', async () => {
+    const { history } = renderWithRouter(
+      <Provider>
+        <App />
+      </Provider>,
+    );
+
+    act(() => {
+      history.push('/meals/52977');
+    });
+    await wait(1500);
+    const title = screen.getByTestId('recipe-title');
+    const button = screen.getByTestId('start-recipe-btn');
+    button.click();
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals/52977/in-progress');
+    expect(title).toBeInTheDocument();
+  });
+
 });
