@@ -6,6 +6,8 @@ import Provider from '../context/RecipesProvider';
 import renderWithRouter from './helpers/RenderWithRouter';
 
 describe('testando o componente Recipes', () => {
+  const idRecipeTitle = 'recipe-title';
+  const idStartRecipeBtn = 'start-recipe-btn';
   it('testando os botões', async () => {
     const { history } = renderWithRouter(
       <Provider>
@@ -86,8 +88,8 @@ describe('testando o componente Recipes', () => {
       history.push('/drinks/178319');
     });
     await wait(1500);
-    const title = screen.getByTestId('recipe-title');
-    const button = screen.getByTestId('start-recipe-btn');
+    const title = screen.getByTestId(idRecipeTitle);
+    const button = screen.getByTestId(idStartRecipeBtn);
     button.click();
     expect(title).toBeInTheDocument();
   });
@@ -103,8 +105,8 @@ describe('testando o componente Recipes', () => {
       history.push('/drinks/178319');
     });
     await wait(1500);
-    const title = screen.getByTestId('recipe-title');
-    const button = screen.getByTestId('start-recipe-btn');
+    const title = screen.getByTestId(idRecipeTitle);
+    const button = screen.getByTestId(idStartRecipeBtn);
     button.click();
     const { pathname } = history.location;
     expect(pathname).toBe('/drinks/178319/in-progress');
@@ -122,12 +124,11 @@ describe('testando o componente Recipes', () => {
       history.push('/meals/52977');
     });
     await wait(1500);
-    const title = screen.getByTestId('recipe-title');
-    const button = screen.getByTestId('start-recipe-btn');
+    const title = screen.getByTestId(idRecipeTitle);
+    const button = screen.getByTestId(idStartRecipeBtn);
     button.click();
     const { pathname } = history.location;
     expect(pathname).toBe('/meals/52977/in-progress');
     expect(title).toBeInTheDocument();
   });
-
 });
